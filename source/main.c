@@ -5,6 +5,7 @@
 Result nfc_test() {
 	Result ret = 0;
 	u32 pos;
+	u32 file_output_number = 0;
 	u32 i;
 	size_t tmpsize;
 	FILE *f;
@@ -50,7 +51,8 @@ Result nfc_test() {
 			printf("Requested the Mii to be saved.\n");
 
 			memset(tmpstr, 0, sizeof(tmpstr));
-			snprintf(tmpstr, sizeof(tmpstr)-1, "amiibo_mii_out.bin");
+			snprintf(tmpstr, sizeof(tmpstr) - 1, "amiibo_mii_out_%lu.bin", file_output_number);
+			file_output_number++;
 			f = fopen(tmpstr, "w");
 
 			if (f) {
@@ -60,7 +62,7 @@ Result nfc_test() {
 				if (tmpsize != sizeof(miiData)) {
 					printf("Failed to write all data to the file.\nOnly 0x%x of 0x%x bytes were written.\n", tmpsize, sizeof(miiData));
 				} else {
-					printf("Writing finished. Wrote to amiibo_mii_out.bin\n");
+					printf("Writing finished. Wrote to amiibo_mii_out_%lu.bin\n", file_output_number);
 				}
 			} else {
 				printf("Failed to open the file for writing.\n");
